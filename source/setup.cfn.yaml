@@ -42,6 +42,7 @@ Conditions:
   RunSmokeTest: !Equals [ !Ref SmokeTest, "Yes" ]
 
 Resources:
+  #bie-pipeline-Setup located in CodeBuild
   Setup:
     Type: Custom::Setup
     DependsOn:
@@ -50,7 +51,7 @@ Resources:
     Properties:
       ServiceToken: !Sub ${SetupLambda.Arn}
       CodeBuildProjectName: !Sub ${CodeBuild}
-
+  #bie-pipelineSetup Lambda Function    
   SetupLambda:
     Type: AWS::Lambda::Function
     DependsOn:
@@ -69,7 +70,7 @@ Resources:
         rules_to_suppress:
           - id: W58
             reason: Bug in CfnNag.
-
+  # Roles for bie-pipelineSetup Lambda Function (LogsAccess, CodeBuildAccess, EventsAccess, LambdaAcess)
   SetupLambdaRole:
     Type: AWS::IAM::Role
     DependsOn:
@@ -126,7 +127,7 @@ Resources:
                   - lambda:RemovePermission
                 Resource:
                   - !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Project}*
-
+  # IAM policies/roles for CodeBuild bie-pipeline-Setup (Access to all services in pipeline)                
   CodeBuildRole:
       Type: AWS::IAM::Role
       Properties:

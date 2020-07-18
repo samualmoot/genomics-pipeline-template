@@ -24,11 +24,12 @@ if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
 fi
 
 # Get reference for all important folders
-template_dir="$PWD"
-template_dist_dir="$template_dir/global-s3-assets"
-build_dist_dir="$template_dir/regional-s3-assets"
-source_dir="$template_dir/../source"
+template_dir="$PWD" # /mnt/c/Users/Samual/git-dev/genomics-secondary-analysis-using-aws-step-functions-and-aws-batch/deployment/
+template_dist_dir="$template_dir/global-s3-assets" # /mnt/c/Users/Samual/git-dev/genomics-secondary-analysis-using-aws-step-functions-and-aws-batch/global-s3-assets
+build_dist_dir="$template_dir/regional-s3-assets" # /mnt/c/Users/Samual/git-dev/genomics-secondary-analysis-using-aws-step-functions-and-aws-batch/regional-s3-assests
+source_dir="$template_dir/../source" # /mnt/c/Users/Samual/git-dev/genomics-secondary-analysis-using-aws-step-functions-and-aws-batch/source/
 
+### Rename "setup.cfn.yaml" file (parent template) to "genomics-secondary-analysis-using-aws-step-functions-and-aws-batch.template" ###
 cp $source_dir/setup.cfn.yaml $template_dir/genomics-secondary-analysis-using-aws-step-functions-and-aws-batch.template
 
 echo "------------------------------------------------------------------------------"
@@ -69,7 +70,7 @@ echo "sed -i '' -e $replace $template_dist_dir/*.template"
 sed -i '' -e $replace $template_dist_dir/*.template
 
 mkdir $build_dist_dir/samples
-
+# Download samples from URL or other source
 wget https://aws-batch-genomics-shared.s3.amazonaws.com/secondary-analysis/example-files/fastq/NIST7035_R1_trim_samp-0p1.fastq.gz
 cp NIST7035_R1_trim_samp-0p1.fastq.gz $build_dist_dir/samples/NIST7035_R1_trim_samp-0p1.fastq.gz
  
